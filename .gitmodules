@@ -1,0 +1,3 @@
+[submodule "stm32lib-ws2812b"]
+	path = stm32lib-ws2812b
+	url = https://github.com/alcedo-taku/stm32lib-ws2812b.git
