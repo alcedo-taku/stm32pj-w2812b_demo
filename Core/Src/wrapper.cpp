@@ -3,6 +3,9 @@
 #include "stdint.h"
 #include "tim.h"
 #include <cmath>
+//#include <array>
+
+#include "ws2812b.hpp"
 
 /* Pre-Processor Begin */
 
@@ -31,6 +34,18 @@ uint16_t pwmData_singl[24];
 
 int datasentflag = 0;
 
+ws2812b::WS2812B tape_led(&htim1,TIM_CHANNEL_1,MAX_LED);
+std::vector<ws2812b::RGB_t> color_rgb = {
+    ws2812b::RGB_t{255, 0, 0},
+    ws2812b::RGB_t{0, 255, 0},
+    ws2812b::RGB_t{0, 0, 255},
+    ws2812b::RGB_t{46, 89, 128},
+    ws2812b::RGB_t{156, 233, 100},
+    ws2812b::RGB_t{102, 0, 235},
+    ws2812b::RGB_t{47, 38, 77},
+    ws2812b::RGB_t{255, 200, 0}
+};
+
 /* Variable End */
 
 void init(void){
@@ -39,29 +54,48 @@ void init(void){
     //  set_led(1, 0, 255, 0);
     //  set_led(2, 0, 0, 255);
     //  ws2812_send();
+    tape_led.init();
 }
 
 void loop(void){
     //    send(5, 255, 101);
-    set_led(0, 255, 0, 0);
-    set_led(1, 0, 255, 0);
-    set_led(2, 0, 0, 255);
-    set_led(3, 46, 89, 128);
-    set_led(4, 156, 233, 100);
-    set_led(5, 102, 0, 235);
-    set_led(6, 47, 38, 77);
-    set_led(7, 255, 200, 0);
+//    set_led(0, 255, 0, 0);
+//    set_led(1, 0, 255, 0);
+//    set_led(2, 0, 0, 255);
+//    set_led(3, 46, 89, 128);
+//    set_led(4, 156, 233, 100);
+//    set_led(5, 102, 0, 235);
+//    set_led(6, 47, 38, 77);
+//    set_led(7, 255, 200, 0);
+//    ws2812_send();
+
+//    tape_led.set_color_rgb(0, 255, 0, 0);
+//    tape_led.set_color_rgb(1, 0, 255, 0);
+//    tape_led.set_color_rgb(2, 0, 0, 255);
+//    tape_led.set_color_rgb(3, 46, 89, 128);
+//    tape_led.set_color_rgb(4, 156, 233, 100);
+//    tape_led.set_color_rgb(5, 102, 0, 235);
+//    tape_led.set_color_rgb(6, 47, 38, 77);
+//    tape_led.set_color_rgb(7, 255, 200, 0);
+//    tape_led.set_color_rgb(color_rgb);
+    tape_led.set_color_hsv(0, 0, 100, 100);
+    tape_led.set_color_hsv(1, 120, 100, 100);
+    tape_led.set_color_hsv(2, 240, 100, 100);
+    tape_led.send();
+
+    HAL_Delay (100);
 
     for (int i=0; i<46; i++){
-        set_brightness(i);
-        ws2812_send();
-        HAL_Delay (50);
+//        set_brightness(i);
+//        ws2812_send();
+
+//        HAL_Delay (50);
     }
 
     for (int i=45; i>=0; i--){
-        set_brightness(i);
-        ws2812_send();
-        HAL_Delay (50);
+//        set_brightness(i);
+//        ws2812_send();
+//        HAL_Delay (50);
     }
 }
 
@@ -69,8 +103,9 @@ void loop(void){
 
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim){
-    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
-    datasentflag = 1;
+//    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
+//    datasentflag = 1;
+    tape_led.run_pulse_finished();
 }
 
 void set_led(int led_num, int red, int green, int blue){
