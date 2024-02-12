@@ -78,25 +78,45 @@ void loop(void){
 //    tape_led.set_color_rgb(6, 47, 38, 77);
 //    tape_led.set_color_rgb(7, 255, 200, 0);
 //    tape_led.set_color_rgb(color_rgb);
-    tape_led.set_color_hsv(0, 0, 100, 100);
-    tape_led.set_color_hsv(1, 120, 100, 100);
-    tape_led.set_color_hsv(2, 240, 100, 100);
-    tape_led.send();
+//    tape_led.set_color_hsv(0, 0, 100, 100);
+//    tape_led.set_color_hsv(1, 120, 100, 100);
+//    tape_led.set_color_hsv(2, 240, 100, 100);
+//    tape_led.send();
+//
+//    HAL_Delay (100);
 
-    HAL_Delay (100);
-
-    for (int i=0; i<46; i++){
+    for (int i=0; i<360; i++){
 //        set_brightness(i);
 //        ws2812_send();
+        for (uint8_t j = 0; j < MAX_LED; j++) {
+//            tape_led.set_color_hsv(j, 360.0f*j/MAX_LED + i*8, 100, 50); // ゲーミング
+//            tape_led.set_color_hsv(j, 360.0f*j/MAX_LED + i, 100, 100.0f*(MAX_LED-j)/MAX_LED); // ゲーミング＋固定明るさグラデーション
+            tape_led.set_color_hsv(j, 360.0f*j/MAX_LED + i, 100.0f*(MAX_LED-j)/MAX_LED, 50); // ゲーミング＋固定彩度グラデーション
+//            tape_led.set_color_hsv(j, 360.0f*j/MAX_LED + i, 100.0f*(MAX_LED-j)/MAX_LED, 100.0f*(MAX_LED-j)/MAX_LED); // ゲーミング＋固定彩度明度グラデーション
 
-//        HAL_Delay (50);
+//            // 点が移動していく
+//            if (j==(uint8_t)(i/360.0f*MAX_LED)){
+//                tape_led.set_color_hsv(j, 360.0f*j/MAX_LED + i, 100.0f*(MAX_LED-j)/MAX_LED, 100.0f*(MAX_LED-j)/MAX_LED); // ゲーミング＋固定彩度明度グラデーション
+//            }else{
+//                tape_led.set_color_hsv(j, 360.0f*j/MAX_LED + i, 100.0f*(MAX_LED-j)/MAX_LED, 0); // ゲーミング＋固定彩度明度グラデーション
+//            }
+
+            // 点（大きさ及びぼやけがある）がなめらかに移動していく
+        }
+        tape_led.send();
+        HAL_Delay (3);
     }
 
-    for (int i=45; i>=0; i--){
-//        set_brightness(i);
-//        ws2812_send();
+//    for (int i=45; i>=0; i--){
+////        set_brightness(i);
+////        ws2812_send();
+//
+//        for (uint8_t j = 0; j < MAX_LED; j++) {
+//            tape_led.set_color_hsv(j, 360.0f*j/MAX_LED + i*4, 100, 100);
+//        }
+//        tape_led.send();
 //        HAL_Delay (50);
-    }
+//    }
 }
 
 /* Function Body Begin */
