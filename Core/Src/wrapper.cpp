@@ -125,7 +125,6 @@ void loop(void){
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim){
 //    HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
 //    datasentflag = 1;
-    tape_led.run_pulse_finished();
 }
 
 void set_led(int led_num, int red, int green, int blue){
